@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
+    public ParticleSystem dust;
     [SerializeField] private float _speed;
     private Vector3 _input;
     private Rigidbody2D _rigidbody;
@@ -16,6 +17,7 @@ public class CharacterMovement : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animations = GetComponentInChildren<CharacterAnimations>();
+        dust.Play();
     }
 
     // Update is called once per frame
@@ -33,10 +35,16 @@ public class CharacterMovement : MonoBehaviour
         _input = new Vector2(Input.GetAxis("Horizontal"), 0);
         transform.position += _input * _speed * Time.deltaTime;
         _isMoving = _input.x != 0;
+        var em = dust.emission;
 
         if (_isMoving)
         {
             _characterSprite.flipX = _input.x > 0 ? false : true;
+            em.rateOverTime = 10.0f;
+        }
+        else
+        {
+            em.rateOverTime = 0.0f;
         }
         _animations.isMoving = _isMoving;
     }

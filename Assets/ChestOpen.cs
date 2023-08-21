@@ -1,15 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class Coin : MonoBehaviour
+public class ChestOpen : MonoBehaviour
 {
-    [SerializeField] Text coinCount;
+    private Animator _animator;
     // Start is called before the first frame update
     void Start()
     {
-        
+        _animator = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -20,9 +19,6 @@ public class Coin : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        int coins = PlayerPrefs.GetInt("coins");
-        PlayerPrefs.SetInt("coins", coins + 1);
-        coinCount.text = (coins + 1).ToString();
-        Destroy(this.gameObject);
+        _animator.SetBool("IsHeroNear", true);
     }
 }
